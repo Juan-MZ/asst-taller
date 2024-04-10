@@ -3,8 +3,6 @@ package co.edu.unicauca.asae.assttaller.models;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
-
 @Entity
 @Getter
 @Setter
