@@ -4,21 +4,30 @@ import java.util.List;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "docente")
+@Entity
+@PrimaryKeyJoinColumn(name = "id_persona")
+@Table(name = "docentes")
 public class Docente extends Persona {
-    @Column(name = "correo", length = 30)
+
+    @Column(length = 30)
     private String correo;
-    @Column(name = "vinculacion", length = 30)
+
+    @Column(length = 30)
     private String vinculacion;
-    @Column(name = "departamento", length = 30)
-    private String departamento;
-    @OneToOne(mappedBy = "idpersona")
-    private Telefono idtelefono;
+
+    @OneToOne(mappedBy = "objPersona")
+    private Telefono objTelefono;
+
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "departamentos-docentes",
+                joinColumns = @JoinColumn(name = "id_persona"),
+                inverseJoinColumns = @JoinColumn(name = "id_departamento"))
     private List<Departamento> departamentos;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "objDocente")
+    private List<Respuesta> respuestas; 
 }

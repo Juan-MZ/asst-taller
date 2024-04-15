@@ -1,17 +1,36 @@
 package co.edu.unicauca.asae.assttaller.models;
 
+import java.util.List;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.*;
 
-@Entity
-@Table(name = "departamentos")
 @Getter
 @Setter
-@Builder
+@NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "tipo_preguntas")
 public class TipoPregunta {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_tipo_pregunta")
     private Integer idtippregunta;
+
+    @Column(length = 30)
     private String nombre;
+
+    @Column(length = 30)
     private String descripcion;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "objTipoPregunta")
+    private List<Pregunta> preguntas;
 }
