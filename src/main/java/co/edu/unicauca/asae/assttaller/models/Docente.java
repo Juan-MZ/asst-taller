@@ -1,5 +1,6 @@
 package co.edu.unicauca.asae.assttaller.models;
 
+import java.util.List;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -8,9 +9,8 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Table(name = "docente")
-public class Docente extends Persona{
+public class Docente extends Persona {
     @Column(name = "correo", length = 30)
     private String correo;
     @Column(name = "vinculacion", length = 30)
@@ -19,4 +19,6 @@ public class Docente extends Persona{
     private String departamento;
     @OneToOne(mappedBy = "idpersona")
     private Telefono idtelefono;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Departamento> departamentos;
 }
