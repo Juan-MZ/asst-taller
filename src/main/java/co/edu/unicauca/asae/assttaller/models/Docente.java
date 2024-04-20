@@ -9,17 +9,17 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@PrimaryKeyJoinColumn(name = "id_persona")
+@PrimaryKeyJoinColumn(name = "id_docente")
 @Table(name = "docentes")
 public class Docente extends Persona {
 
-    @Column(length = 30)
+    @Column(length = 30, nullable = false)
     private String correo;
 
     @Column(length = 30)
     private String vinculacion;
 
-    @OneToOne(mappedBy = "objPersona")
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "objPersona")
     private Telefono objTelefono;
 
     @ManyToMany(fetch = FetchType.EAGER)

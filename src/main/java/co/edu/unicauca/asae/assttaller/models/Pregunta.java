@@ -33,7 +33,7 @@ public class Pregunta {
     @Column(length = 30)
     private String enunciado;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "objPregunta")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "objPregunta")
     private List<Respuesta> respuestas;
 
     @ManyToOne
