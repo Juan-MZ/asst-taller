@@ -23,14 +23,14 @@ public class TipoPregunta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_tipo_pregunta")
-    private Integer idtippregunta;
+    private Integer idTipoPregunta;
 
     @Column(length = 30)
     private String nombre;
 
-    @Column(length = 30)
+    @Column(length = 60)
     private String descripcion;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "objTipoPregunta")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "objTipoPregunta")
     private List<Pregunta> preguntas;
 }

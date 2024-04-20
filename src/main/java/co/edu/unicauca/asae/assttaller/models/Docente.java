@@ -1,15 +1,30 @@
 package co.edu.unicauca.asae.assttaller.models;
 
 import java.util.List;
-import jakarta.persistence.*;
-import lombok.*;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@PrimaryKeyJoinColumn(name = "id_docente")
+@PrimaryKeyJoinColumn(name = "id_persona")
 @Table(name = "docentes")
 public class Docente extends Persona {
 
@@ -19,7 +34,7 @@ public class Docente extends Persona {
     @Column(length = 30)
     private String vinculacion;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "objPersona")
+    @OneToOne(cascade = { CascadeType.REMOVE, CascadeType.PERSIST }, mappedBy = "objPersona")
     private Telefono objTelefono;
 
     @ManyToMany(fetch = FetchType.EAGER)

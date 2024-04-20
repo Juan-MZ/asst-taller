@@ -2,6 +2,7 @@ package co.edu.unicauca.asae.assttaller.models;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -28,15 +29,15 @@ public class Pregunta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pregunta")
-    private Integer idpregunta;
+    private Integer idPregunta;
 
-    @Column(length = 30)
+    @Column(length = 60, nullable = false)
     private String enunciado;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "objPregunta")
     private List<Respuesta> respuestas;
 
-    @ManyToOne
+    @ManyToOne(cascade = { CascadeType.PERSIST })
     @JoinColumn(name = "id_cuestionario", nullable = false)
     private Cuestionario objCuestionario;
 
