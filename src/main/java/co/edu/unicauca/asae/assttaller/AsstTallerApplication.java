@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.unicauca.asae.assttaller.models.Cuestionario;
+import co.edu.unicauca.asae.assttaller.models.Departamento;
 import co.edu.unicauca.asae.assttaller.models.Docente;
 import co.edu.unicauca.asae.assttaller.models.Pregunta;
 import co.edu.unicauca.asae.assttaller.models.Telefono;
@@ -17,6 +18,7 @@ import co.edu.unicauca.asae.assttaller.models.TipoPregunta;
 import co.edu.unicauca.asae.assttaller.models.enums.TipoIdentificacion;
 import co.edu.unicauca.asae.assttaller.models.enums.TipoTelefono;
 import co.edu.unicauca.asae.assttaller.repositories.CuestionarioRepository;
+import co.edu.unicauca.asae.assttaller.repositories.DepartamentoRepository;
 import co.edu.unicauca.asae.assttaller.repositories.DocentesRepository;
 import co.edu.unicauca.asae.assttaller.repositories.PreguntaRepository;
 import co.edu.unicauca.asae.assttaller.repositories.TelefonosRepository;
@@ -41,13 +43,17 @@ public class AsstTallerApplication implements CommandLineRunner {
 	@Autowired
 	private CuestionarioRepository servicioBDCuestionario;
 
+	@Autowired
+	private DepartamentoRepository servicioBDDepartamentos;
+
 	public static void main(String[] args) {
 		SpringApplication.run(AsstTallerApplication.class, args);
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
-		almacenarCuestionarios();
+		almacenarDepartamentos();
+		crearDocentes();
 	}
 
 	private void almacenarDocentes() {
@@ -104,6 +110,9 @@ public class AsstTallerApplication implements CommandLineRunner {
 		this.servicioBDTipoPreguntas.save(objTipoPregunta4);
 	}
 
+	/**
+	 * Método para almacenar cuestionarios
+	 */
 	private void almacenarCuestionarios() {
 
 		Cuestionario objCuestionario1 = new Cuestionario();
@@ -242,6 +251,116 @@ public class AsstTallerApplication implements CommandLineRunner {
 		this.servicioBDCuestionario.save(objCuestionario4); 
 	}
 
+	/**
+	 * Método para eliminar cuestionario
+	 */
+	private void eliminarCuestionario() {
+		this.servicioBDCuestionario.deleteById(2);
+	}
+
+	/**
+	 * Método para eliminar pregunta
+	 */
+	private void eliminarPregunta() {
+		Integer idEliminar = 1;
+		this.servicioBDPreguntas.deleteById(idEliminar);
+		if(this.servicioBDPreguntas.findById(idEliminar) == null) {
+			System.out.println("La pregunta con el id: " + idEliminar + " se elimino con exito.");
+		}
+
+	}
+
+	private void almacenarDepartamentos() {
+		Departamento objDepartamento1 = new Departamento();
+		objDepartamento1.setNombreDep("Dpto de sistemas");
+		objDepartamento1.setDescripcion("Dpto de Sistemas");
+
+		Departamento objDepartamento2 = new Departamento();
+		objDepartamento2.setNombreDep("Dpto de Electrónica");
+		objDepartamento2.setDescripcion("Dpto de Electrónica");
+
+		Departamento objDepartamento3 = new Departamento();
+		objDepartamento3.setNombreDep("Dpto de Telematica");
+		objDepartamento3.setDescripcion("Dpto de Telematica");
+
+		this.servicioBDDepartamentos.save(objDepartamento1);
+		this.servicioBDDepartamentos.save(objDepartamento2);
+		this.servicioBDDepartamentos.save(objDepartamento3);
+	}
+
+	private void crearDocentes() {
+
+		Departamento objDepartamento1 = this.servicioBDDepartamentos.findById(1).get();
+		Departamento objDepartamento2 = this.servicioBDDepartamentos.findById(2).get();
+		Departamento objDepartamento3 = this.servicioBDDepartamentos.findById(3).get();
+
+		Docente objDocente1 = new Docente();
+		objDocente1.setTipoIdentificacion(TipoIdentificacion.CC);
+		objDocente1.setNumeroIdentificacion("1061811001");
+		objDocente1.setNombres("Pedro Andres");
+		objDocente1.setApellidos("Gomez Lopez");
+		objDocente1.setCorreo("pedro@gmail.com");
+		objDocente1.setVinculacion("Vinculación");
+
+		Telefono objTelefono1 = new Telefono();
+		objTelefono1.setTipoTelefono(TipoTelefono.CELULAR);
+		objTelefono1.setNumero("3234703101");
+		objDocente1.setObjTelefono(objTelefono1);
+		objTelefono1.setObjPersona(objDocente1);
+		
+		List<Departamento> departamentosDocente1 = new ArrayList<>();
+		departamentosDocente1.add(objDepartamento1);
+		departamentosDocente1.add(objDepartamento3);
+		objDocente1.setDepartamentos(departamentosDocente1);
+
+		this.servicioBDDocentes.save(objDocente1);
+
+		/**------------------------------------------------------- */
+		Docente objDocente2 = new Docente();
+		objDocente2.setTipoIdentificacion(TipoIdentificacion.CC);
+		objDocente2.setNumeroIdentificacion("1061811002");
+		objDocente2.setNombres("Ana Sofia");
+		objDocente2.setApellidos("Trujillo");
+		objDocente2.setCorreo("ana@gmail.com");
+		objDocente2.setVinculacion("Vinculación");
+
+		Telefono objTelefono2 = new Telefono();
+		objTelefono2.setTipoTelefono(TipoTelefono.CELULAR);
+		objTelefono2.setNumero("3234703102");
+		objDocente2.setObjTelefono(objTelefono2);
+		objTelefono2.setObjPersona(objDocente2);
+		
+		List<Departamento> departamentosDocente2 = new ArrayList<>();
+		departamentosDocente2.add(objDepartamento1);
+		departamentosDocente2.add(objDepartamento2);
+		departamentosDocente2.add(objDepartamento3);
+		objDocente2.setDepartamentos(departamentosDocente2);
+
+		this.servicioBDDocentes.save(objDocente2);
+
+		/**------------------------------------------------------- */
+		Docente objDocente3 = new Docente();
+		objDocente3.setTipoIdentificacion(TipoIdentificacion.CC);
+		objDocente3.setNumeroIdentificacion("1061811003");
+		objDocente3.setNombres("Alexander");
+		objDocente3.setApellidos("Narvaez");
+		objDocente3.setCorreo("alex@gmail.com");
+		objDocente3.setVinculacion("Vinculación");
+
+		Telefono objTelefono3 = new Telefono();
+		objTelefono3.setTipoTelefono(TipoTelefono.FIJO);
+		objTelefono3.setNumero("30003103");
+		objDocente3.setObjTelefono(objTelefono3);
+		objTelefono3.setObjPersona(objDocente3);
+		
+		List<Departamento> departamentosDocente3 = new ArrayList<>();
+		departamentosDocente3.add(objDepartamento2);
+		departamentosDocente3.add(objDepartamento3);
+		objDocente3.setDepartamentos(departamentosDocente3);
+
+		this.servicioBDDocentes.save(objDocente3);
+	}
+
 	private void almacenarPreguntasv2() {
 		/**------------------------------------------------------- */
 		TipoPregunta objTipoPregunta3 = new TipoPregunta();
@@ -284,15 +403,6 @@ public class AsstTallerApplication implements CommandLineRunner {
 		objPregunta12.setEnunciado("Cambios fuertes en el apetito");
 		objPregunta12.setObjTipoPregunta(objTipoPregunta4);
 		this.servicioBDPreguntas.save(objPregunta12);
-	}
-
-	private void eliminarPregunta() {
-		Integer idEliminar = 1;
-		this.servicioBDPreguntas.deleteById(idEliminar);
-		if(this.servicioBDPreguntas.findById(idEliminar) == null) {
-			System.out.println("La pregunta con el id: " + idEliminar + " se elimino con exito.");
-		}
-
 	}
 
 }
