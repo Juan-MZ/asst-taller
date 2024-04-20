@@ -34,7 +34,7 @@ public class Pregunta {
     @Column(length = 60, nullable = false)
     private String enunciado;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "objPregunta")
+    @OneToMany(cascade = { CascadeType.REMOVE }, fetch = FetchType.LAZY, mappedBy = "objPregunta")
     private List<Respuesta> respuestas;
 
     @ManyToOne(cascade = { CascadeType.PERSIST })

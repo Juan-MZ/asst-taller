@@ -26,7 +26,7 @@ public class Respuesta {
     @Column(name = "id_respuesta")
     private Integer idRespuesta;
 
-    @Column(length = 30)
+    @Column(length = 30, nullable = false)
     private String descripcion;
 
     @ManyToOne

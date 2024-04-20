@@ -37,12 +37,12 @@ public class Docente extends Persona {
     @OneToOne(cascade = { CascadeType.REMOVE, CascadeType.PERSIST }, mappedBy = "objPersona")
     private Telefono objTelefono;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = { CascadeType.PERSIST }, fetch = FetchType.LAZY)
     @JoinTable(name = "departamentos-docentes",
                 joinColumns = @JoinColumn(name = "id_persona"),
                 inverseJoinColumns = @JoinColumn(name = "id_departamento"))
     private List<Departamento> departamentos;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "objDocente")
+    @OneToMany(cascade = { CascadeType.REMOVE }, fetch = FetchType.EAGER, mappedBy = "objDocente")
     private List<Respuesta> respuestas; 
 }

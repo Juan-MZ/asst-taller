@@ -13,6 +13,7 @@ import co.edu.unicauca.asae.assttaller.models.Cuestionario;
 import co.edu.unicauca.asae.assttaller.models.Departamento;
 import co.edu.unicauca.asae.assttaller.models.Docente;
 import co.edu.unicauca.asae.assttaller.models.Pregunta;
+import co.edu.unicauca.asae.assttaller.models.Respuesta;
 import co.edu.unicauca.asae.assttaller.models.Telefono;
 import co.edu.unicauca.asae.assttaller.models.TipoPregunta;
 import co.edu.unicauca.asae.assttaller.models.enums.TipoIdentificacion;
@@ -21,8 +22,10 @@ import co.edu.unicauca.asae.assttaller.repositories.CuestionarioRepository;
 import co.edu.unicauca.asae.assttaller.repositories.DepartamentoRepository;
 import co.edu.unicauca.asae.assttaller.repositories.DocentesRepository;
 import co.edu.unicauca.asae.assttaller.repositories.PreguntaRepository;
+import co.edu.unicauca.asae.assttaller.repositories.RespuestaRepository;
 import co.edu.unicauca.asae.assttaller.repositories.TelefonosRepository;
 import co.edu.unicauca.asae.assttaller.repositories.TipoPreguntaRepository;
+import lombok.val;
 
 @SpringBootApplication
 @Transactional
@@ -46,6 +49,9 @@ public class AsstTallerApplication implements CommandLineRunner {
 	@Autowired
 	private DepartamentoRepository servicioBDDepartamentos;
 
+	@Autowired
+	private RespuestaRepository servicioBDRespuestas;
+
 	public static void main(String[] args) {
 		SpringApplication.run(AsstTallerApplication.class, args);
 	}
@@ -54,31 +60,8 @@ public class AsstTallerApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		almacenarDepartamentos();
 		crearDocentes();
-	}
-
-	private void almacenarDocentes() {
-		Docente objDocente1 = new Docente();
-		objDocente1.setTipoIdentificacion(TipoIdentificacion.CC);
-		objDocente1.setNumeroIdentificacion("1061811001");
-		objDocente1.setNombres("Pedro Andres");
-		objDocente1.setApellidos("Gomez Lopez");
-		objDocente1.setCorreo("pedro@gmail.com");
-		objDocente1.setVinculacion("Vinculación");
-
-		Telefono objTelefono1 = new Telefono();
-		objTelefono1.setTipoTelefono(TipoTelefono.CELULAR);
-		objTelefono1.setNumero("3234703101");
-		
-		objDocente1.setObjTelefono(objTelefono1);
-		objTelefono1.setObjPersona(objDocente1);
-
-		this.servicioBDDocentes.save(objDocente1);
-
-
-	}
-
-	private void eliminarDocente() {
-		this.servicioBDDocentes.deleteById(1);;
+		almacenarCuestionarios();
+		almacenarRespuestas(); 
 	}
 
 	/**
@@ -127,7 +110,7 @@ public class AsstTallerApplication implements CommandLineRunner {
 		List<Pregunta> preguntasCuestionario1 = new ArrayList<>();
 
 		Pregunta objPregunta1 = new Pregunta();
-		objPregunta1.setEnunciado("¿Hace cuántos años que trabaja en esta empresa?");
+		objPregunta1.setEnunciado("¿Hace cuántos años trabaja en esta empresa?");
 		objPregunta1.setObjTipoPregunta(objTipoPregunta1);
 		preguntasCuestionario1.add(objPregunta1);
 
@@ -361,48 +344,62 @@ public class AsstTallerApplication implements CommandLineRunner {
 		this.servicioBDDocentes.save(objDocente3);
 	}
 
-	private void almacenarPreguntasv2() {
-		/**------------------------------------------------------- */
-		TipoPregunta objTipoPregunta3 = new TipoPregunta();
-		objTipoPregunta3.setNombre("Extralaboral");
-		objTipoPregunta3.setDescripcion("Preguntas de factores psicosociales extralaborales");
-		this.servicioBDTipoPreguntas.save(objTipoPregunta3);
+	private void eliminarDocente() {
+		this.servicioBDDocentes.deleteById(2);;
+	}
 
-		Pregunta objPregunta7 = new Pregunta();
-		objPregunta7.setEnunciado("Es fácil transportarme entre mi casa y el trabajo");
-		objPregunta7.setObjTipoPregunta(objTipoPregunta3);
-		this.servicioBDPreguntas.save(objPregunta7);
+	private void almacenarRespuestas() {
+		Docente objDocente1 = this.servicioBDDocentes.findById(1).get();
 
-		Pregunta objPregunta8 = new Pregunta();
-		objPregunta8.setEnunciado("La zonda donde vivo es segura");
-		objPregunta8.setObjTipoPregunta(objTipoPregunta3);
-		this.servicioBDPreguntas.save(objPregunta8);
+		Pregunta objPregunta1 = this.servicioBDPreguntas.findById(1).get();
+		Pregunta objPregunta2 = this.servicioBDPreguntas.findById(2).get();
+		Pregunta objPregunta3 = this.servicioBDPreguntas.findById(3).get();
+		Pregunta objPregunta4 = this.servicioBDPreguntas.findById(4).get();
+		Pregunta objPregunta5 = this.servicioBDPreguntas.findById(5).get();
+		Pregunta objPregunta6 = this.servicioBDPreguntas.findById(6).get();
+		Pregunta objPregunta7 = this.servicioBDPreguntas.findById(7).get();
+		Pregunta objPregunta8 = this.servicioBDPreguntas.findById(8).get();
+		Pregunta objPregunta9 = this.servicioBDPreguntas.findById(9).get();
+		Pregunta objPregunta10 = this.servicioBDPreguntas.findById(10).get();
+		Pregunta objPregunta11 = this.servicioBDPreguntas.findById(11).get();
+		Pregunta objPregunta12 = this.servicioBDPreguntas.findById(12).get();
+		
 
-		Pregunta objPregunta9 = new Pregunta();
-		objPregunta9.setEnunciado("Las condiciones de mi vivienda son buenas");
-		objPregunta9.setObjTipoPregunta(objTipoPregunta3);
-		this.servicioBDPreguntas.save(objPregunta9);
+		Respuesta objRespuesta1Docente1 = new Respuesta();
+		objRespuesta1Docente1.setDescripcion("5 años");
+		objRespuesta1Docente1.setObjDocente(objDocente1);
+		objRespuesta1Docente1.setObjPregunta(objPregunta1);
+		this.servicioBDRespuestas.save(objRespuesta1Docente1);
 
-		/**------------------------------------------------------- */
-		TipoPregunta objTipoPregunta4 = new TipoPregunta();
-		objTipoPregunta4.setNombre("Estrés");
-		objTipoPregunta4.setDescripcion("Preguntas para la evaluación del estrés");
-		this.servicioBDTipoPreguntas.save(objTipoPregunta4);
+		Respuesta objRespuesta2Docente1 = new Respuesta();
+		objRespuesta2Docente1.setDescripcion("Desarrollador Junior");
+		objRespuesta2Docente1.setObjDocente(objDocente1);
+		objRespuesta2Docente1.setObjPregunta(objPregunta2);
+		this.servicioBDRespuestas.save(objRespuesta2Docente1);
 
-		Pregunta objPregunta10 = new Pregunta();
-		objPregunta10.setEnunciado("Dolor de cabeza");
-		objPregunta10.setObjTipoPregunta(objTipoPregunta4);
-		this.servicioBDPreguntas.save(objPregunta10);
+		Respuesta objRespuesta3Docente1 = new Respuesta();
+		objRespuesta3Docente1.setDescripcion("Ingeniero de sistemas");
+		objRespuesta3Docente1.setObjDocente(objDocente1);
+		objRespuesta3Docente1.setObjPregunta(objPregunta3);
+		this.servicioBDRespuestas.save(objRespuesta3Docente1);
 
-		Pregunta objPregunta11 = new Pregunta();
-		objPregunta11.setEnunciado("Problemas respiratorios");
-		objPregunta11.setObjTipoPregunta(objTipoPregunta4);
-		this.servicioBDPreguntas.save(objPregunta11);
+		Respuesta objRespuesta4Docente1 = new Respuesta();
+		objRespuesta4Docente1.setDescripcion("Un poco");
+		objRespuesta4Docente1.setObjDocente(objDocente1);
+		objRespuesta4Docente1.setObjPregunta(objPregunta4);
+		this.servicioBDRespuestas.save(objRespuesta4Docente1);
 
-		Pregunta objPregunta12 = new Pregunta();
-		objPregunta12.setEnunciado("Cambios fuertes en el apetito");
-		objPregunta12.setObjTipoPregunta(objTipoPregunta4);
-		this.servicioBDPreguntas.save(objPregunta12);
+		Respuesta objRespuesta5Docente1 = new Respuesta();
+		objRespuesta5Docente1.setDescripcion("Si, es comodo");
+		objRespuesta5Docente1.setObjDocente(objDocente1);
+		objRespuesta5Docente1.setObjPregunta(objPregunta5);
+		this.servicioBDRespuestas.save(objRespuesta5Docente1);
+
+		Respuesta objRespuesta6Docente1 = new Respuesta();
+		objRespuesta6Docente1.setDescripcion("Nunca");
+		objRespuesta6Docente1.setObjDocente(objDocente1);
+		objRespuesta6Docente1.setObjPregunta(objPregunta6);
+		this.servicioBDRespuestas.save(objRespuesta6Docente1);
 	}
 
 }
