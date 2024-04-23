@@ -57,13 +57,14 @@ public class AsstTallerApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		/* crearCuestionarios();
+		almacenarTipoPreguntas();
+		crearCuestionarios();
 		crearDepartamentos();
 		registrarDocentes();
-		registrarRespuestas();  */
-		//consultarRespuestasCuestionarios();
-		//this.servicioBDCuestionario.deleteById(1);
-		this.servicioBDDocentes.deleteById(2);
+		registrarRespuestas();
+		consultarRespuestasCuestionarios();
+		// this.servicioBDCuestionario.deleteById(1);
+		// this.servicioBDDocentes.deleteById(2);
 	}
 
 	/**
@@ -442,23 +443,22 @@ public class AsstTallerApplication implements CommandLineRunner {
 
 		List<Cuestionario> listaCuestionarios = (List<Cuestionario>) this.servicioBDCuestionario.findAll();
 
-		if( listaCuestionarios.isEmpty() ) {
+		if (listaCuestionarios.isEmpty()) {
 			System.out.println("No hay cuestionarios registrados...\n");
 			return;
 		}
-		
-		for(Cuestionario cuestionario: listaCuestionarios) {
+
+		for (Cuestionario cuestionario : listaCuestionarios) {
 			System.out.println("\n-------------------------------------------------");
 			System.out.println("Cuestionario: " + cuestionario.getIdCuestionario());
 			System.out.println("Titulo: " + cuestionario.getTitulo());
 			System.out.println("Descripcion: " + cuestionario.getDescripcion());
 			System.out.println("\n* * * Preguntas * * *\n");
 			List<Pregunta> listaPreguntas = (List<Pregunta>) cuestionario.getPreguntas();
-			if( listaPreguntas.isEmpty() ) {
+			if (listaPreguntas.isEmpty()) {
 				System.out.println("No existen preguntas registradas para este cuestionario.");
-			}
-			else {
-				for(Pregunta pregunta: listaPreguntas) {
+			} else {
+				for (Pregunta pregunta : listaPreguntas) {
 					System.out.println("Pregunta: " + pregunta.getIdPregunta());
 					System.out.println("Enunciado: " + pregunta.getEnunciado());
 					TipoPregunta objTipoPregunta = pregunta.getObjTipoPregunta();
@@ -473,12 +473,12 @@ public class AsstTallerApplication implements CommandLineRunner {
 	private void consultarRespuestasCuestionarios() {
 		List<Respuesta> listaRespuestas = (List<Respuesta>) this.servicioBDRespuestas.findAll();
 
-		if(listaRespuestas.isEmpty()) {
+		if (listaRespuestas.isEmpty()) {
 			System.out.println("No hay respuestas registradas...");
 			return;
 		}
 
-		for(Respuesta respuesta: listaRespuestas) {
+		for (Respuesta respuesta : listaRespuestas) {
 			System.out.println("\n---------------------------------------------------------");
 			System.out.println("\n # " + respuesta.getIdRespuesta());
 
@@ -488,10 +488,11 @@ public class AsstTallerApplication implements CommandLineRunner {
 			System.out.println("* * * Cuestionario: " + cuestionario.getIdCuestionario() + " * * *");
 			System.out.println("Titulo: " + cuestionario.getTitulo());
 			System.out.println("Descripción: " + cuestionario.getDescripcion());
-			
+
 			Docente docente = respuesta.getObjDocente();
 			System.out.println("\n * * * Docente: " + docente.getIdPersona() + " * * * ");
-			System.out.println("Identificación: " + docente.getTipoIdentificacion() + " " + docente.getNumeroIdentificacion());
+			System.out.println(
+					"Identificación: " + docente.getTipoIdentificacion() + " " + docente.getNumeroIdentificacion());
 			System.out.println("Nombre Completo: " + docente.getNombres() + " " + docente.getApellidos());
 
 			System.out.println("\n * * * Pregunta: " + pregunta.getIdPregunta() + " * * * ");
