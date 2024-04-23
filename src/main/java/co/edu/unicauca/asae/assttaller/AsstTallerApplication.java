@@ -25,7 +25,6 @@ import co.edu.unicauca.asae.assttaller.repositories.PreguntaRepository;
 import co.edu.unicauca.asae.assttaller.repositories.RespuestaRepository;
 import co.edu.unicauca.asae.assttaller.repositories.TelefonosRepository;
 import co.edu.unicauca.asae.assttaller.repositories.TipoPreguntaRepository;
-import lombok.val;
 
 @SpringBootApplication
 @Transactional
@@ -58,10 +57,13 @@ public class AsstTallerApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		almacenarDepartamentos();
-		crearDocentes();
-		almacenarCuestionarios();
-		almacenarRespuestas();
+		/* crearCuestionarios();
+		crearDepartamentos();
+		registrarDocentes();
+		registrarRespuestas();  */
+		//consultarRespuestasCuestionarios();
+		//this.servicioBDCuestionario.deleteById(1);
+		this.servicioBDDocentes.deleteById(2);
 	}
 
 	/**
@@ -96,7 +98,7 @@ public class AsstTallerApplication implements CommandLineRunner {
 	/**
 	 * Método para almacenar cuestionarios
 	 */
-	private void almacenarCuestionarios() {
+	private void crearCuestionarios() {
 
 		Cuestionario objCuestionario1 = new Cuestionario();
 		objCuestionario1.setTitulo("Ficha de datos generales");
@@ -120,7 +122,7 @@ public class AsstTallerApplication implements CommandLineRunner {
 		preguntasCuestionario1.add(objPregunta2);
 
 		Pregunta objPregunta3 = new Pregunta();
-		objPregunta3.setEnunciado("¿Cuál es su ocupación o profesión");
+		objPregunta3.setEnunciado("¿Cuál es su ocupación o profesión?");
 		objPregunta3.setObjTipoPregunta(objTipoPregunta1);
 		preguntasCuestionario1.add(objPregunta3);
 
@@ -245,15 +247,10 @@ public class AsstTallerApplication implements CommandLineRunner {
 	 * Método para eliminar pregunta
 	 */
 	private void eliminarPregunta() {
-		Integer idEliminar = 1;
-		this.servicioBDPreguntas.deleteById(idEliminar);
-		if (this.servicioBDPreguntas.findById(idEliminar) == null) {
-			System.out.println("La pregunta con el id: " + idEliminar + " se elimino con exito.");
-		}
-
+		this.servicioBDPreguntas.deleteById(2);
 	}
 
-	private void almacenarDepartamentos() {
+	private void crearDepartamentos() {
 		Departamento objDepartamento1 = new Departamento();
 		objDepartamento1.setNombreDep("Dpto de sistemas");
 		objDepartamento1.setDescripcion("Dpto de Sistemas");
@@ -271,7 +268,7 @@ public class AsstTallerApplication implements CommandLineRunner {
 		this.servicioBDDepartamentos.save(objDepartamento3);
 	}
 
-	private void crearDocentes() {
+	private void registrarDocentes() {
 
 		Departamento objDepartamento1 = this.servicioBDDepartamentos.findById(1).get();
 		Departamento objDepartamento2 = this.servicioBDDepartamentos.findById(2).get();
@@ -346,11 +343,10 @@ public class AsstTallerApplication implements CommandLineRunner {
 
 	private void eliminarDocente() {
 		this.servicioBDDocentes.deleteById(2);
-		;
 	}
 
-	private void almacenarRespuestas() {
-		/* Traemos al primero docente */
+	private void registrarRespuestas() {
+		/* Traemos al primer docente */
 		Docente objDocente1 = this.servicioBDDocentes.findById(1).get();
 		/* Traemos al segundo docente */
 		Docente objDocente2 = this.servicioBDDocentes.findById(2).get();
@@ -362,12 +358,6 @@ public class AsstTallerApplication implements CommandLineRunner {
 		Pregunta objPregunta4 = this.servicioBDPreguntas.findById(4).get();
 		Pregunta objPregunta5 = this.servicioBDPreguntas.findById(5).get();
 		Pregunta objPregunta6 = this.servicioBDPreguntas.findById(6).get();
-		Pregunta objPregunta7 = this.servicioBDPreguntas.findById(7).get();
-		Pregunta objPregunta8 = this.servicioBDPreguntas.findById(8).get();
-		Pregunta objPregunta9 = this.servicioBDPreguntas.findById(9).get();
-		Pregunta objPregunta10 = this.servicioBDPreguntas.findById(10).get();
-		Pregunta objPregunta11 = this.servicioBDPreguntas.findById(11).get();
-		Pregunta objPregunta12 = this.servicioBDPreguntas.findById(12).get();
 
 		/* Creación de respuestas para el primer docente */
 		Respuesta objRespuesta1Docente1 = new Respuesta();
@@ -426,7 +416,7 @@ public class AsstTallerApplication implements CommandLineRunner {
 		this.servicioBDRespuestas.save(objRespuesta3Docente2);
 
 		Respuesta objRespuesta4Docente2 = new Respuesta();
-		objRespuesta4Docente2.setDescripcion("No me molesta");
+		objRespuesta4Docente2.setDescripcion("No, no me molesta");
 		objRespuesta4Docente2.setObjDocente(objDocente2);
 		objRespuesta4Docente2.setObjPregunta(objPregunta4);
 		this.servicioBDRespuestas.save(objRespuesta4Docente2);
@@ -435,13 +425,83 @@ public class AsstTallerApplication implements CommandLineRunner {
 		objRespuesta5Docente2.setDescripcion("No, es algo incomodo.");
 		objRespuesta5Docente2.setObjDocente(objDocente2);
 		objRespuesta5Docente2.setObjPregunta(objPregunta5);
-		this.servicioBDRespuestas.save(objRespuesta5Docente1);
+		this.servicioBDRespuestas.save(objRespuesta5Docente2);
 
 		Respuesta objRespuesta6Docente2 = new Respuesta();
 		objRespuesta6Docente2.setDescripcion("Nunca");
 		objRespuesta6Docente2.setObjDocente(objDocente2);
 		objRespuesta6Docente2.setObjPregunta(objPregunta6);
 		this.servicioBDRespuestas.save(objRespuesta6Docente2);
+	}
+
+	private void eliminarRespuesta() {
+		this.servicioBDRespuestas.deleteById(2);
+	}
+
+	private void consultarCuestionarios() {
+
+		List<Cuestionario> listaCuestionarios = (List<Cuestionario>) this.servicioBDCuestionario.findAll();
+
+		if( listaCuestionarios.isEmpty() ) {
+			System.out.println("No hay cuestionarios registrados...\n");
+			return;
+		}
+		
+		for(Cuestionario cuestionario: listaCuestionarios) {
+			System.out.println("\n-------------------------------------------------");
+			System.out.println("Cuestionario: " + cuestionario.getIdCuestionario());
+			System.out.println("Titulo: " + cuestionario.getTitulo());
+			System.out.println("Descripcion: " + cuestionario.getDescripcion());
+			System.out.println("\n* * * Preguntas * * *\n");
+			List<Pregunta> listaPreguntas = (List<Pregunta>) cuestionario.getPreguntas();
+			if( listaPreguntas.isEmpty() ) {
+				System.out.println("No existen preguntas registradas para este cuestionario.");
+			}
+			else {
+				for(Pregunta pregunta: listaPreguntas) {
+					System.out.println("Pregunta: " + pregunta.getIdPregunta());
+					System.out.println("Enunciado: " + pregunta.getEnunciado());
+					TipoPregunta objTipoPregunta = pregunta.getObjTipoPregunta();
+					System.out.println("Tipo de pregunta: " + objTipoPregunta.getNombre());
+					System.out.println("Descripción del tipo de pregunta: " + objTipoPregunta.getDescripcion());
+				}
+			}
+			System.out.println("-------------------------------------------------\n\n");
+		}
+	}
+
+	private void consultarRespuestasCuestionarios() {
+		List<Respuesta> listaRespuestas = (List<Respuesta>) this.servicioBDRespuestas.findAll();
+
+		if(listaRespuestas.isEmpty()) {
+			System.out.println("No hay respuestas registradas...");
+			return;
+		}
+
+		for(Respuesta respuesta: listaRespuestas) {
+			System.out.println("\n---------------------------------------------------------");
+			System.out.println("\n # " + respuesta.getIdRespuesta());
+
+			Pregunta pregunta = respuesta.getObjPregunta();
+			Cuestionario cuestionario = pregunta.getObjCuestionario();
+
+			System.out.println("* * * Cuestionario: " + cuestionario.getIdCuestionario() + " * * *");
+			System.out.println("Titulo: " + cuestionario.getTitulo());
+			System.out.println("Descripción: " + cuestionario.getDescripcion());
+			
+			Docente docente = respuesta.getObjDocente();
+			System.out.println("\n * * * Docente: " + docente.getIdPersona() + " * * * ");
+			System.out.println("Identificación: " + docente.getTipoIdentificacion() + " " + docente.getNumeroIdentificacion());
+			System.out.println("Nombre Completo: " + docente.getNombres() + " " + docente.getApellidos());
+
+			System.out.println("\n * * * Pregunta: " + pregunta.getIdPregunta() + " * * * ");
+			System.out.println("TIPO: " + pregunta.getObjTipoPregunta().getNombre());
+			System.out.println(" - " + pregunta.getEnunciado());
+
+			System.out.println("\n * * * Respuesta * * *");
+			System.out.println(" - " + respuesta.getDescripcion());
+			System.out.println("---------------------------------------------------------\n\n");
+		}
 	}
 
 }

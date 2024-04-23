@@ -34,14 +34,17 @@ public class Pregunta {
     @Column(length = 60, nullable = false)
     private String enunciado;
 
-    @OneToMany(cascade = { CascadeType.REMOVE }, fetch = FetchType.LAZY, mappedBy = "objPregunta")
+    @OneToMany(cascade = { CascadeType.REMOVE }, 
+        fetch = FetchType.EAGER, mappedBy = "objPregunta")
     private List<Respuesta> respuestas;
 
-    @ManyToOne(cascade = { CascadeType.PERSIST })
+    //Por defecto en asociaciones many to one el fetchType es EAGER
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_cuestionario", nullable = false)
     private Cuestionario objCuestionario;
 
-    @ManyToOne
+    //Por defecto en asociaciones many to one el fetchType es EAGER
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_tipo_pregunta", nullable = false)
     private TipoPregunta objTipoPregunta;
 }
