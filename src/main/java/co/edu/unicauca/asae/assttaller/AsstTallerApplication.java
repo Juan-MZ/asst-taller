@@ -62,6 +62,7 @@ public class AsstTallerApplication implements CommandLineRunner {
 		crearDepartamentos();
 		registrarDocentes();
 		registrarRespuestas();
+		consultarCuestionarios();
 		consultarRespuestasCuestionarios();
 		// this.servicioBDCuestionario.deleteById(1);
 		// this.servicioBDDocentes.deleteById(2);
